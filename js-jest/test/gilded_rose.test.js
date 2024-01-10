@@ -51,6 +51,13 @@ describe("Gilded Rose Pin Down Tests", () => {
     expect(items[0].quality).toBe(50);
   })
 
+  test('quality sell by under 0', () => {
+    let agedBrie = new Item("Aged Brie", -1, 20);
+    const gildedRose = new Shop([agedBrie]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].quality).toBe(21);
+  })
+  
   test('sulfuras doesnt decrease in quality or have to be sold', () => {
     let sulfuras = new Item("Sulfuras", 10, 80);
     const gildedRose = new Shop([sulfuras]);
