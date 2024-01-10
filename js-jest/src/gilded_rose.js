@@ -13,17 +13,33 @@ class Shop {
 
   updateQuality() {
     this.items.forEach(item => {
-      if (item.name !== 'Sulfuras, Hand of Ragnaros') this.decreaseSellInDateByOne(item)
+      this.updateSellIn(item);
 
       switch (item.name) {
-        case 'Aged Brie': this.updateAgedBrie(item); break;
-        case 'Backstage passes to a TAFKAL80ETC concert': this.updateBackstage(item); break;
-        case 'Sulfuras, Hand of Ragnaros': this.updateSulfuras(item); break;
-        case 'Conjured': this.updateConjured(item); break;
-        default: this.updateNormalItem(item); break;
+        case 'Aged Brie': 
+          this.updateAgedBrie(item); 
+          break;
+        case 'Backstage passes to a TAFKAL80ETC concert': 
+          this.updateBackstage(item); 
+          break;
+        case 'Sulfuras, Hand of Ragnaros': 
+          this.updateSulfuras(item); 
+          break;
+        case 'Conjured': 
+          this.updateConjured(item); 
+          break;
+        default: 
+          this.updateNormalItem(item); 
+          break;
       } 
     })
     return this.items;
+  }
+
+  updateSellIn(item) {
+    if (item.name !== 'Sulfuras, Hand of Ragnaros') {
+      item.sellIn -= 1
+    }
   }
 
   updateNormalItem(item) {
@@ -34,17 +50,11 @@ class Shop {
     }
   }
 
-  decreaseSellInDateByOne(item) {
-    item.sellIn -= 1
-  }
-
   decreaseExpiredQuality(item) {
     if (item.quality >= 2) {
       item.quality -= 2
     } else if (item.quality > 0) {
       item.quality -= 1
-    } else {
-      return
     }
   }
 
@@ -57,9 +67,7 @@ class Shop {
   updateBackstage(item) {
     if (item.sellIn < 0) {
       item.quality = 0;
-      return
-    } 
-    if (item.quality < 50) {
+    } else if (item.quality < 50) {
       this.updateBackstageQuality(item)
     }
   }
@@ -81,7 +89,6 @@ class Shop {
   updateConjured(item) {
     item.quality -= 2
   }
-
 }
 
 
