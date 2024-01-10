@@ -43,42 +43,21 @@ class Shop {
   }
 
   updateNormalItem(item) {
-    if (item.sellIn <= 0) {
-      this.decreaseExpiredQuality(item)
-    } else {
-      item.quality -= 1
-    }
+    item.quality -= item.sellIn <= 0 ? 2 : 1;
+    item.quality = Math.max(0, Math.min(50, item.quality));
   }
-
-  decreaseExpiredQuality(item) {
-    if (item.quality >= 2) {
-      item.quality -= 2
-    } else if (item.quality > 0) {
-      item.quality -= 1
-    }
-  }
+  
 
   updateAgedBrie(item) {
-    if (item.quality < 50) {
-      item.quality = item.quality + 1;
-    }
+    item.quality = Math.min(50, item.quality + 1);
   }
 
   updateBackstage(item) {
     if (item.sellIn < 0) {
       item.quality = 0;
-    } else if (item.quality < 50) {
-      this.updateBackstageQuality(item)
-    }
-  }
-
-  updateBackstageQuality(item) {
-    if (item.sellIn < 6 ) {
-      item.quality = item.quality + 3;
-    } else if (item.sellIn < 11) {
-      item.quality = item.quality + 2;
     } else {
-      item.quality = item.quality + 1;
+      const qualityIncrease = item.sellIn < 6 ? 3 : item.sellIn < 11 ? 2 : 1;
+      item.quality = Math.min(50, item.quality + qualityIncrease);
     }
   }
 
@@ -88,6 +67,7 @@ class Shop {
 
   updateConjured(item) {
     item.quality -= 2
+    item.quality = Math.max(0, item.quality);
   }
 }
 
