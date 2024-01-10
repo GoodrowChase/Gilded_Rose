@@ -59,7 +59,7 @@ describe("Gilded Rose Pin Down Tests", () => {
   })
   
   test('sulfuras doesnt decrease in quality or have to be sold', () => {
-    let sulfuras = new Item("Sulfuras", 10, 80);
+    let sulfuras = new Item("Sulfuras, Hand of Ragnaros", 10, 80);
     const gildedRose = new Shop([sulfuras]);
     const items = gildedRose.updateQuality();
     expect(items[0].quality).toBe(80);
@@ -86,6 +86,17 @@ describe("Gilded Rose Pin Down Tests", () => {
     const gildedRose = new Shop([backstagePass]);
     const items = gildedRose.updateQuality();
     expect(items[0].quality).toBe(0);
+  });
+
+  test('Quality of "Backstage passes" days over 10', () => {
+    let backstagePass = new Item(
+      "Backstage passes to a TAFKAL80ETC concert",
+      15,
+      20
+    );
+    const gildedRose = new Shop([backstagePass]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].quality).toBe(21);
   });
 
   test('Conjured degrades 2x', () => {
